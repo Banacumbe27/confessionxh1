@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confession XH1</title>
+    <style>
+        html,body{
+            background:rgba(152,251,152,1);
+            margin:none;
+        }
+        .ptnk-logo{
+            background:url(ptnk-logo.webp);
+            background-size:cover;
+            width:10vmax;
+            height:10vmax;
+        }
+        .topbar{
+            display:flex;
+            justify-content: center;
+            height:fit-content;
+            width:100vw;
+            flex-wrap: wrap;
+            flex-direction: row;
+            align-items: center;
+            background:rgba(0,0,0,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            gap:1vmax;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:100;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3vmax;
+            color:white;
+            font-weight:bolder;
+        }
+       
+        .topbar-button{
+            width:fit-content;
+            height:fit-content;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 3vmax;
+            border:5px solid white;
+            color:white;
+            border-radius:10%;
+            margin:none;
+            cursor:pointer;
+            user-select: none;
+            padding:1vmax;
+            font-weight:bolder;
+            transition-duration:0.1s;
+        }
+        .pressed{
+            background:white;
+            color:black;
+        }
+        .confessions-list{
+            position:absolute;
+            left:0;
+            top:30vh;
+            display:flex;
+            flex-direction:column;
+            gap:5vmax;
+            width:100vw;
+            justify-content: center;
+            align-items: center;
+            position:absolute;
+            margin:none;
+        }
+        .confessions-list-label{
+            display:flex;
+            flex-direction: row;
+            width:90vw;
+            background:rgba(255,150,0,0.7);
+            height:fit-content;
+            border-radius:3vmax;
+            padding:2vmax;
+            color:white;
+            font-weight:bolder;
+            transition-duration:0.5s;
+            gap:1vmax;
+            margin:none;
+            padding-bottom:5vmax;
+        }
+        .confessions-list-label-userinfo{
+            display:flex;
+            flex-direction: column;
+        }
+        .confessions-list-label-userinfo-usericon{
+            border-radius:100%;
+            background:url(default.webp);
+            background-size:cover;
+            border:5px solid black;
+            width:7vmax;
+            height:7vmax;
+        }
+        .confessions-list-label-userinfo-username{
+            font-family: Arial, Helvetica, sans-serif;
+            color:black;
+            font-size:1.5vmax;
+            text-align:center;
+            margin:none;
+        }
+        .confessions-list-label-content{
+            text-align: left;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:3vmax;
+            margin:none;
+            height:fit-content;
+            width:50vw;
+            color:black;
+            user-select: none;
+        }
+        .confessions-list-label-like {
+    width: fit-content;
+    height: fit-content;
+    padding-left: 1vmax;
+    padding-right: 1vmax;
+    border-radius:25px;
+    background-color: white; 
+    border:5px solid red;
+    color:black;
+    margin: none;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:2.5vmax;
+    user-select: none;
+    cursor:pointer;
+
+
+}
+.confessions-list-label-like:active{
+    background:red;
+    color:white;
+}
+    .confessions-list-label-like:hover{
+        background-color:pink;
+    }
+    .confessions-list-loading{
+        width:20vmax;
+        height:20vmax;
+        background:white;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        animation:1s loading infinite;
+    }
+    @keyframes loading{
+        0%{
+            border-radius: 0%;
+            transform:rotate(0deg);
+            background:white;
+            border:20px solid black;
+        }
+        50%{
+            border-radius:100%;
+            transform:rotate(90deg);
+            background:black;
+            border:20px solid white;
+
+        }
+        100%{
+            border-radius: 0%;
+            transform:rotate(0deg);
+            background:url(default.webp);
+            border:20px solid black;
+
+        }
+    }
+        .confessions-list-label-userinfo-timestamp{
+            text-align: left;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:1.5vmax;
+            color:grey;
+            margin:0;
+        }
+        .confess{
+            display:none;
+
+        }
+        .confess-window{
+            position:fixed;
+            top:12vh;
+            left:0;
+            width:100vw;
+            height:100vh;
+            background:rgba(255,255,255,0.7);
+            z-index:50;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .confess-window p{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:4vmax;
+            user-select:none;
+            margin-left:1vmax;
+
+        }
+        .confess-window-form>*{
+            font-size:3vmax;
+            display:block;
+            margin:1vmax;
+            margin:none;
+        }
+        .confess-window-form textarea{
+            height:30vh;
+        }
+        .confess-window-login{
+            position:absolute;
+            left:60%;
+            top:20%;
+            display:flex;
+            flex-direction: column;
+            font-size:3vmax;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .confess-window-login-form >*{
+            font-size:3vmax;
+            display:block;
+        }
+        @media screen and (max-width:830px) {
+            .topbar-button{
+            font-size:5vmax;
+        }
+        .confessions-list-label-content{
+            text-align: left;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:2vmax;
+            margin:none;
+            height:fit-content;
+            width:50vw;
+            color:black;
+            user-select: none;
+        }
+        .confess-window{
+            top:20vh;
+        }
+        .confess-window-login{
+            left:0;
+            top:60%;
+        }
+        .confess-window-login-form >*{
+            font-size:2vmax;
+        }
+        .confess-window-form textarea{
+            height:25vh;
+            width:90vw;
+        }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="ptnk-logo"></div>
+        12XH1
+    </div>
+    <section class="confessions" >
+        <div class="confessions-list">
+            <div class="confessions-list-loading"></div>
+        </div>
+    </section>
+    <section class="confess"style="display:none;">
+        <div class="confess-window">
+            <p  id="status-bar" style="margin:none" >Các bạn vui lòng sử dụng lời lẽ văn minh. Cảm ơn.
+            </p>
+                <div class="confess-window-usericon_select"></div>
+            <form class="confess-window-form" onsubmit="postConfessions(event)">
+                <input value="confess" name="requestType" style="display:none">
+                <input name="nickname" placeholder="NICKNAME (optional)" maxlength="10" autocomplete="off">
+                <input name="student_id" style="display:none" id="student_id">
+                <textarea  placeholder="BẠN CÓ ĐIỀU GÌ MUỐN NÓI VỚI LỚP?" name="confession" maxlength="200" autocomplete="off" required></textarea>
+                <input type="submit" value="Gửi">
+            </form>
+            <div class="confess-window-login">
+                Đăng nhập (chỉ để xác nhận bạn là học sinh 12XH1, danh tính sẽ được bảo mật)
+                <form class="confess-window-login-form" onsubmit="login(event)" autocomplete="off">
+                    <input placeholder="MSHS" name="MSHS" required>
+                    <input type="password" placeholder="Mật khẩu" name="password" required>
+                    <input type="submit" value="ĐĂNG NHẬP">
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+        const confession_database_id='AKfycbwLvtJjbv4vfQUE5KCzBfMv6jbhAvCes6aRkOYkdfLK_FxaZ5WMv5PKmgq5BOmvDZw1FA';
+        const confession_database_url=`https://script.google.com/macros/s/${confession_database_id}/exec`;
+        const account_database_id=`AKfycbyt_-73ODaTF0LvUcWHLHuRZPGqEt3XwUwYGLpQQ5BF-LFcnEkCbQLPXl9VlflWX7c1`;
+        const account_database_url=`https://script.google.com/macros/s/${account_database_id}/exec`;
+         
+    function sendLike(id){
+        let likeRequest=new FormData();
+        likeRequest.append('requestType','like');
+        likeRequest.append('confession_id',id+1);
+        fetch(confession_database_url,{
+            method:'post',
+            body:likeRequest,
+            mode:'no-cors'
+        });
+        
+    }
+    let account_data;
+    function loadAccounts(){
+        fetch(account_database_url)
+        .then(response=>response.json())
+        .then(data=>{
+            account_data=data;
+        });
+    }
+    loadAccounts();
+    let logged_in=false;
+    let admin=false;
+    const status_bar=document.querySelector('#status-bar');
+        let login_data;
+        let input_username;
+        let input_password;
+    function login(event){
+        event.preventDefault();
+         login_data=new FormData(document.querySelector('.confess-window-login-form'))
+         input_username=login_data.get('MSHS');
+         input_password=login_data.get('password');
+        for(let i=0;i<account_data.length;i++){
+            if(input_username==account_data[i].username && input_password==account_data[i].password){
+                logged_in=true;
+                if(input_username=='222738'){
+                status_bar.textContent='🔑Đã cấp quyền ADMIN🔑';
+                admin=true;
+            }
+                else
+                status_bar.textContent='✔️Đã đăng nhập✔️';
+            document.querySelector('#student_id').value=input_username;
+                break;
+            }
+        }
+                if(!logged_in)
+                status_bar.textContent='❌Tên đăng nhập hoặc Mật khẩu không đúng❌';
+    }
+    let submitted=false;
+    function postConfessions(e){
+    let max_confession=3;
+        e.preventDefault();
+        if(logged_in&&!submitted){
+            submitted=true;
+            if(JSON.parse(account_data[input_username-222701].submissions)<max_confession){
+            status_bar.textContent='⌛Đang gửi...⌛'
+        const formEle=document.querySelector('.confess-window-form');
+        let confession_data=new FormData(formEle);
+        fetch(confession_database_url,{
+            method:'post',
+            body:confession_data,
+            mode:"no-cors"
+        })
+        .then(()=>{
+            status_bar.textContent='✔️Confession đã được ghi nhận✔️'
+        });
+        let updateSubmissions=new FormData();
+        updateSubmissions.append('username_index',input_username-222700);
+        fetch(account_database_url,{
+            method:'post',
+            body:updateSubmissions,
+            mode:"no-cors"
+        });
+       }
+       else{
+        status_bar.textContent='⚠️Bạn chỉ được gửi tối đa 3 confession⚠️'
+       }
+    }
+        else if(!logged_in){
+            status_bar.textContent="⚠️Bạn chưa đăng nhập⚠️";
+        }
+    }
+
+    function loadConfessions(){
+        fetch(confession_database_url)
+        .then(response=>response.json())
+        .then(data=>
+            {
+                updateConfessionLabels(data);
+            }
+        )
+        .catch(error=>console.error(error));
+    }
+    setInterval(loadConfessions,1000);
+    //loadConfessions();
+    function updateConfessionLabels(data){
+        const confession_list=document.querySelector('.confessions-list');
+        confession_list.innerHTML='';
+        for(let i=0;i<data.length;i++){
+        const label=document.createElement('div');
+        label.classList.add('confessions-list-label')
+
+        const user_info=document.createElement('div');
+        const user_icon=document.createElement('div');
+        user_icon.classList.add('confessions-list-label-userinfo-usericon');
+        const username=document.createElement('div');
+        username.classList.add('confessions-list-label-userinfo-username')
+        username.textContent=data[i].nickname==""?"user":data[i].nickname;//maximum of 10 characters
+        if(admin)
+        username.textContent=data[i].nickname==""?data[i].MSHS:data[i].nickname+'-'+data[i].student_id;//maximum of 10 characters
+
+        const timestamp=document.createElement('div');
+        timestamp.classList.add('confessions-list-label-userinfo-timestamp');
+        let format_date=new Date(data[i].timestamp);
+        let days_of_week=['CN','T2','T3','T4','T5','T6','T7'];
+        timestamp.textContent=`${days_of_week[format_date.getDay()]} ${format_date.getDate()}/${format_date.getMonth()}/${format_date.getFullYear()} ${format_date.getHours()}:${format_date.getMinutes()}`;
+
+        user_info.appendChild(user_icon);
+        user_info.appendChild(username);
+        user_info.appendChild(timestamp);
+
+
+        const content=document.createElement('div');
+        content.classList.add('confessions-list-label-content');
+        content.textContent=data[i].confession;
+
+        const like=document.createElement('div');
+        like.classList.add('confessions-list-label-like');
+        like.onclick=()=>{sendLike(i)};
+        like.textContent='Thích ' +data[i].likes;
+        
+      
+        label.id=i;
+        label.appendChild(user_info);
+        label.appendChild(content);
+        label.appendChild(like);
+        confession_list.appendChild(label);
+
+
+
+    }
+    }
+
+
+
+
+    const topbar_properties={
+        labels:['Confess']
+    };
+    function generateTopBar(){
+        for(let i=0;i<topbar_properties.labels.length;i++){
+            let button=document.createElement('div');
+            button.classList.add('topbar-button');
+            button.textContent=button.id=topbar_properties.labels[i];
+            button.onclick=()=>{open(button.id);};
+            document.querySelector('.topbar').appendChild(button);
+        }
+    }
+    generateTopBar();
+    let lastid;
+    function open(id){
+        last_element=document.querySelector(`#${lastid}`);
+        if(last_element!=null)last_element.classList.remove('pressed');
+        lastid=id;
+        element=document.querySelector(`#${id}`);
+        element.classList.add('pressed');
+        if(id=='Confess'){
+            if(document.querySelector('.confess').style.display=='none'){
+            document.querySelector('.confess').style.display='block';
+            document.querySelector('.confess').style.opacity='1';
+            }
+            else {
+            document.querySelector('.confess').style.display='none';
+            element.classList.remove('pressed');
+            }
+
+        }
+    }
+</script>
+</html>
