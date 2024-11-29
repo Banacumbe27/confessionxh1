@@ -399,7 +399,7 @@
         username.classList.add('confessions-list-label-userinfo-username')
         username.textContent=data[i].nickname==""?"user":data[i].nickname;//maximum of 10 characters
         if(admin)
-        username.textContent=data[i].nickname==""?data[i].MSHS:data[i].nickname+'-'+data[i].student_id;//maximum of 10 characters
+        username.textContent=data[i].nickname==""?data[i].student_id:data[i].nickname+'-'+data[i].student_id;//maximum of 10 characters
 
         const timestamp=document.createElement('div');
         timestamp.classList.add('confessions-list-label-userinfo-timestamp');
