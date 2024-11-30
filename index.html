@@ -433,7 +433,7 @@
         timestamp.classList.add('confessions-list-label-userinfo-timestamp');
         let format_date=new Date(data[i].timestamp);
         let days_of_week=['CN','T2','T3','T4','T5','T6','T7'];
-        timestamp.textContent=`${days_of_week[format_date.getDay()]} ${format_date.getDate()}/${format_date.getMonth()}/${format_date.getFullYear()} ${format_date.getHours()}:${format_date.getMinutes()}`;
+        timestamp.textContent=`${days_of_week[format_date.getDay()]} ${format_date.getDate()}/${format_date.getMonth()+1}/${format_date.getFullYear()} ${format_date.getHours()}:${format_date.getMinutes()}`;
 
         user_info.appendChild(user_icon);
         user_info.appendChild(username);
