@@ -198,18 +198,23 @@
             margin-left:1vmax;
 
         }
+        .confess-window-form{
+            margin-top:10%;
+        }
         .confess-window-form>*{
-            font-size:3vmax;
+            font-size:4vmax;
             display:block;
-            margin:1vmax;
             margin:none;
+            margin-left:50%;
+            transform:translateX(-50%);
         }
         .confess-window-form textarea{
             height:30vh;
         }
         .confess-window-login{
             position:absolute;
-            left:60%;
+            left:50%;
+            transform:translateX(-50%);
             top:20%;
             display:flex;
             flex-direction: column;
@@ -217,8 +222,14 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         .confess-window-login-form >*{
-            font-size:3vmax;
+            font-size:5vmax;
             display:block;
+        }
+        #status-bar{
+            position:absolute;
+            bottom:0;
+            transform:translateY(-50%);
+            
         }
         @media screen and (max-width:830px) {
             .topbar-button{
@@ -238,15 +249,31 @@
             top:10vh;
         }
         .confess-window-login{
-            left:0;
-            top:60%;
+            left:50%;
+            top:30%;
         }
         .confess-window-login-form >*{
-            font-size:2vmax;
+            font-size:3.5vmax;
         }
         .confess-window-form textarea{
             height:25vh;
             width:90vw;
+            font-size: 4vmax;
+        }
+        .confess-window-form{
+            transform:translateY(50%);
+        }
+        .confess-window-form>*{
+            font-size:3.5vmax;
+            display:block;
+            margin:none;
+            margin-left:50%;
+            transform:translateX(-50%);
+        }
+
+        #status-bar{
+            margin:none;
+            bottom:10%;
         }
         }
 
@@ -264,17 +291,16 @@
     </section>
     <section class="confess"style="display:none;">
         <div class="confess-window">
-            <p  id="status-bar" style="margin:none" >Các bạn vui lòng sử dụng lời lẽ văn minh. Cảm ơn.
+            <p  id="status-bar"   >Các bạn vui lòng sử dụng lời lẽ văn minh. Cảm ơn.
             </p>
-                <div class="confess-window-usericon_select"></div>
-            <form class="confess-window-form" onsubmit="postConfessions(event)">
+            <form class="confess-window-form" onsubmit="postConfessions(event)" id="confession-form" style="display:none">
                 <input value="confess" name="requestType" style="display:none">
-                <input name="nickname" placeholder="NICKNAME (optional)" maxlength="10" autocomplete="off">
+                <input name="nickname" placeholder="NICKNAME (optional)" maxlength="15" autocomplete="off">
                 <input name="student_id" style="display:none" id="student_id">
                 <textarea  placeholder="BẠN CÓ ĐIỀU GÌ MUỐN NÓI VỚI LỚP?" name="confession" maxlength="200" autocomplete="off" required></textarea>
-                <input type="submit" value="Gửi">
+                <input type="submit" value="Gửi➡️" style="font-size:5vmax">
             </form>
-            <div class="confess-window-login">
+            <div class="confess-window-login " id="login" style="display:block;font-size:3vmax">
                 Đăng nhập (chỉ để xác nhận bạn là học sinh 12XH1, danh tính sẽ được bảo mật)
                 <form class="confess-window-login-form" onsubmit="login(event)" autocomplete="off">
                     <input placeholder="MSHS" name="MSHS" required>
@@ -332,6 +358,8 @@
                 else
                 status_bar.textContent='✔️Đã đăng nhập✔️';
             document.querySelector('#student_id').value=input_username;
+            document.querySelector('#login').style.display='none';
+            document.querySelector('#confession-form').style.display='block';
                 break;
             }
         }
