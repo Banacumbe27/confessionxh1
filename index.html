@@ -351,11 +351,15 @@
         for(let i=0;i<account_data.length;i++){
             if(input_username==account_data[i].username && input_password==account_data[i].password){
                 logged_in=true;
-                if(input_username=='222738'||'222701'){
+                if(input_username=='222738'){
                 status_bar.textContent='🔑Đã cấp quyền ADMIN🔑';
                 admin=true;
                 setInterval(loadConfessions,1000);
             }
+                    if(input_username=='222701'){
+                setInterval(loadConfessions,1000);
+                    
+                    }
                 else
                 status_bar.textContent='✔️Đã đăng nhập✔️';
             document.querySelector('#student_id').value=input_username;
